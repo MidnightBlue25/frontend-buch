@@ -14,12 +14,11 @@ export default function Header() {
           <Container>
             {/* Nav 是用来包住一组导航按钮的容器。 */}
               <Nav className="me-auto fs-2 fw-bold">
-                <Link href="/" className="nav-link">Home</Link>
+                <Link href="/" className="nav-link">Startseite</Link>
               </Nav>
               <Nav className="ms-auto fs-4">
-                <Link href="/search" className="nav-link">Search</Link>
-                <Link href="/add" className="nav-link">Add</Link>
-                <Link href="/edit" className="nav-link">Edit</Link>
+                <Link href="/search" className="nav-link">Suche</Link>
+                <Link href="/add" className="nav-link">Neu</Link>
               </Nav>
           </Container>
         </Navbar>
