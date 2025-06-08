@@ -19,6 +19,7 @@ export default function Header() {
               <Nav className="ms-auto fs-4">
                 <Link href="/search" className="nav-link">Suche</Link>
                 <Link href="/add" className="nav-link">Neu</Link>
+                <Link href="/login" className="nav-link">Login</Link>
               </Nav>
           </Container>
         </Navbar>

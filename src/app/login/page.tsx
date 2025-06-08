@@ -11,41 +11,41 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (username === '' || password === '') {
-      setError('用户名和密码不能为空')
+      setError('Benutzername und Passwort dürfen nicht leer sein.')
     } else {
       setError('')
-      alert(`登录成功！欢迎 ${username}`)
-      // 这里你可以做真实登录请求
+      alert(`Login erfolgreich! ${username}`)
+      // Hier könnte eine API-Anfrage zum Login erfolgen
     }
   }
 
   return (
     <Container style={{ maxWidth: '400px', marginTop: '100px' }}>
-      <h2>登录</h2>
+      <h2>Einloggen</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formUsername">
-          <Form.Label>用户名</Form.Label>
+          <Form.Label>Benutzername</Form.Label>
           <Form.Control
             type="text"
-            placeholder="输入用户名"
+            placeholder="Geben Sie Ihren Benutzernamen ein"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Label>密码</Form.Label>
+          <Form.Label>Passwort</Form.Label>
           <Form.Control
             type="password"
-            placeholder="输入密码"
+            placeholder="Geben Sie Ihr Passwort ein"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          登录
+          Login
         </Button>
       </Form>
     </Container>

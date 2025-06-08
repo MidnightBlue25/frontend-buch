@@ -3,8 +3,8 @@ import './globals.css'
 import Headers from '@/components/header'
 
 export const metadata = {
-  title: '我的SPA首页',
-  description: '一个使用Next.js和React-Bootstrap的简单项目',
+  title: 'Buch SPA',
+  description: 'Frontend für Buch Backend mit Next.js und React-Bootstrap',
 }
 
 export default function RootLayout({
