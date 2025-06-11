@@ -9,8 +9,20 @@ const query = gql`
   query ($id: ID!) {
     buch(id: $id) {
       isbn
+      version
+      rating
+      art
+      preis
+      lieferbar
+      datum
+      homepage
+      schlagwoerter
+      titel {
+        titel
     }
+      rabatt(short: true)
   }
+    }
 `;
 type Titel = {
   titel: string
@@ -40,7 +52,7 @@ type Buch = {
   homepage: string
   schlagwoerter: [string]
   titel: Titel
-  rabatt(short: boolean): string
+  rabatt: string
 }
 
 export default function BuchPage() {
@@ -75,6 +87,16 @@ export default function BuchPage() {
     {buch ? (
         <ul className="list-disc ml-4">
           <li><strong>ISBN:</strong> {buch.isbn}</li>
+          <li><strong>version:</strong> {buch.version}</li>
+          <li><strong>rating:</strong> {buch.rating}</li>
+          <li><strong>art:</strong> {buch.art}</li>
+          <li><strong>preis:</strong> {buch.preis}</li>
+          <li><strong>lieferbar:</strong> {buch.lieferbar}</li>
+          <li><strong>datum:</strong> {buch.datum}</li>
+          <li><strong>homepage:</strong> {buch.homepage}</li>
+          <li><strong>schlagwoerter:</strong> {buch.schlagwoerter}</li>
+          <li><strong>titel:</strong> {buch.titel.titel}</li>
+          <li><strong>rabatt:</strong> {buch.rabatt}</li>
         </ul>
       ) : (
         <p>Keine Daten gefunden.</p>
