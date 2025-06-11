@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useState } from "react";
 import { Button, Container, Form, Card, ListGroup, InputGroup } from 'react-bootstrap';
+import Link from "next/link";
 
 
 const query = gql`
@@ -71,7 +72,13 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <Container className="mt-5" style={{ maxWidth: "720px" }}>
-      <h2 className="mb-4 text-center">📚 Buch Details</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <Link href="/search/suchkriterien" passHref>
+          <Button variant="outline-primary">🔍 Suche mit Kriterien</Button>
+        </Link>
+    <h2 className="text-center flex-grow-1 mb-0">📚 Buch Details</h2>
+    <div style={{ width: "150px" }} /> {/* 占位，保持标题居中 */}
+  </div>
 
       <Form onSubmit={handleSearch}>
         <InputGroup className="mb-4">
