@@ -8,6 +8,8 @@ import {
   Button,
   Card,
   ListGroup,
+  Alert,
+  Spinner,
 } from "react-bootstrap";
 
 // ==================== 第 1 部分：GraphQL 查询语句 ====================
@@ -123,16 +125,16 @@ export default function SuchkriterienPage() {
 
       {/* 加载状态 */}
       {loading && (
-        <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
+        <div className="text-center mt-4">
+        <Spinner animation="border" />
         </div>
       )}
 
       {/* 错误信息 */}
       {error && (
-        <div className="alert alert-danger" role="alert">
-          Fehler: {error.message}
-        </div>
+        <Alert variant="danger" className="mt-4">
+        Fehler: {error.message}
+        </Alert>
       )}
 
       {/* 显示搜索结果 */}

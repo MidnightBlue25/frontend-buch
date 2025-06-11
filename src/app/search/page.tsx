@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 import { gql, useLazyQuery } from "@apollo/client";
 import { useState } from "react";
-import { Button, Container, Form, Card, ListGroup, InputGroup } from 'react-bootstrap';
+import { Button, Container, Form, Card, ListGroup, InputGroup, Alert, Spinner } from 'react-bootstrap';
 import Link from "next/link";
 
 
@@ -94,14 +94,14 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
       </Form>
 
       {loading && (
-        <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
+        <div className="text-center mt-4">
+        <Spinner animation="border" />
         </div>
       )}
       {error && (
-        <div className="alert alert-danger" role="alert">
-          Fehler: {error.message}
-        </div>
+        <Alert variant="danger" className="mt-4">
+        Fehler: {error.message}
+        </Alert>
       )}
       {buch ? (
         <Card>
