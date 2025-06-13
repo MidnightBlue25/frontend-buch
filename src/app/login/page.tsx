@@ -24,7 +24,7 @@ export default function LoginPage() {
       <h2>Einloggen</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formUsername">
+        <Form.Group className="mt-3 mb-3" controlId="formUsername">
           <Form.Label>Benutzername</Form.Label>
           <Form.Control
             type="text"

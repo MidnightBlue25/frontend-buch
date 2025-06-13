@@ -1,28 +1,38 @@
 'use client';
 
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import Image from 'next/image';
 
-export default function Page() {
+export default function HomePage() {
   return (
-    <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+    <Container className="d-flex flex-column justify-content-start align-items-center text-center pt-5">
       <Row>
-        <Col className="text-center">
-          <h1>Hello Next.js!</h1>
-          <Form className="mt-4">
-            <Form.Group controlId="formBasicEmail" className="mb-3">
-              <Form.Label>Email-Adresse</Form.Label>
-              <Form.Control type="email" placeholder="E-Mail eingeben" />
-            </Form.Group>
+        <Col>
+          <h1 className="mb-4">Willkommen zur Bibliothek</h1>
+        </Col>
+      </Row>
 
-            <Form.Group controlId="formBasicPassword" className="mb-3">
-              <Form.Label>Passwort</Form.Label>
-              <Form.Control type="password" placeholder="Passwort eingeben" />
-            </Form.Group>
+      <Row>
+        <Col>
+          <Image
+            src="/images/book.png"
+            alt="Ein Buch"
+            width={300}
+            height={300}
+            className="img-fluid"
+          />
+        </Col>
+      </Row>
 
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
-          </Form>
+      <Row>
+        <Col>
+          <Image
+            src="/images/HKAQuer.png"
+            alt="Logo"
+            width={200}
+            height={200}
+            className="img-fluid"
+          />
         </Col>
       </Row>
     </Container>
