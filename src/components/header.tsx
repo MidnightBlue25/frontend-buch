@@ -4,22 +4,32 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import Link from 'next/link'
+import SimpleOffcanvas from '@/components/offcanvas'
+import ToggleButton from '@/components/toggle-button'
 
 export default function Header() {
   return (
     <div>
-        {/* Navbar 是一个 Bootstrap 提供的 导航栏组件，用来放网站顶部的主导航内容，比如 Logo、链接、搜索栏、按钮等等。 */}
+        {/* Navbar: Navigationsleiste oben auf der Seite, z.B. für Logo, Links, Suche, Buttons */}
         <Navbar expand="lg" className="bg-dark navbar-dark">
-          {/* Container 是一个 Bootstrap 的布局工具，用来自动添加左右边距，防止内容贴边。导航栏、页面内容在大屏和小屏上都有一致的居中效果。 */}
+          {/* Container: sorgt für einen zentrierten Inhalt mit automatischen Seitenabständen */}
           <Container>
-            {/* Nav 是用来包住一组导航按钮的容器。 */}
+            {/* Nav: Container für eine Gruppe von Navigationslinks */}
               <Nav className="me-auto fs-2 fw-bold">
                 <Link href="/" className="nav-link">Startseite</Link>
               </Nav>
-              <Nav className="ms-auto fs-4">
+              <Nav className="ms-auto fs-4 align-items-center">
                 <Link href="/search" className="nav-link">Suche</Link>
                 <Link href="/add" className="nav-link">Neu</Link>
-                <Link href="/login" className="nav-link">Login</Link>
+                <div style={{ width: '2rem' }}></div> {/* Abstand */}
+                <Link href="/login" passHref>
+                  <div className="btn btn-outline-primary px-3 py-1">Login</div>
+                </Link>
+                {/* Offcanvas-Button und Sidebar */}
+                <SimpleOffcanvas />
+                <div style={{ marginLeft: "1rem" }}>
+                  <ToggleButton />
+                </div>
               </Nav>
           </Container>
         </Navbar>
