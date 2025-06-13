@@ -21,6 +21,7 @@ const QUERY = gql`
       isbn
       art
       preis
+      schlagwoerter
       titel {
         titel
       }
@@ -34,6 +35,7 @@ type Buch = {
   isbn: string;
   art: string;
   preis: number;
+  schlagwoerter: string[];
   titel: {
     titel: string;
   };
@@ -46,7 +48,15 @@ export default function SuchkriterienPage() {
   const [titel, setTitel] = useState("");
   const [art, setArt] = useState("");
   const [lieferbar, setLieferbar] = useState("");
+  const [schlagwoerter, setSchlagwoerter] = useState<string[]>([]);
 
+  const toggleSchlagwort = (wert: string) => {
+  setSchlagwoerter((prev) =>
+    prev.includes(wert)
+      ? prev.filter((w) => w !== wert)
+      : [...prev, wert]
+  );
+};
   // --- 查询执行器：调用 search() 会发送 GraphQL 请求 ---
   const [search, { data, loading, error }] = useLazyQuery<{ buecher: Buch[] }>(QUERY);
 
@@ -63,6 +73,7 @@ export default function SuchkriterienPage() {
           art: art || undefined,
           lieferbar:
             lieferbar === "" ? undefined : lieferbar === "true",
+          schlagwoerter: schlagwoerter.length > 0 ? schlagwoerter : undefined,
         },
       },
     });
@@ -93,18 +104,30 @@ export default function SuchkriterienPage() {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Art</Form.Label>
-          <Form.Select
-            value={art}
-            onChange={(e) => setArt(e.target.value)}
-          >
-            <option value="">(beliebig)</option>
-            <option value="EPUB">EPUB</option>
-            <option value="HARDCOVER">HARDCOVER</option>
-            <option value="PAPERBACK">PAPERBACK</option>
-          </Form.Select>
-        </Form.Group>
+<Form.Group className="mb-3">
+  <Form.Label>Art</Form.Label>
+  <div>
+    {["EPUB", "HARDCOVER", "PAPERBACK"].map((value) => (
+      <Form.Check
+        key={value}
+        type="radio"
+        label={value}
+        name="art" // 所有 radio 的 name 必须一样才能单选
+        value={value}
+        checked={art === value}
+        onChange={(e) => setArt(e.target.value)}
+      />
+    ))}
+    <Form.Check
+      type="radio"
+      label="(beliebig)"
+      name="art"
+      value=""
+      checked={art === ""}
+      onChange={() => setArt("")}
+    />
+  </div>
+</Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Lieferbar</Form.Label>
@@ -117,6 +140,36 @@ export default function SuchkriterienPage() {
             <option value="false">Nein</option>
           </Form.Select>
         </Form.Group>
+
+        <Form.Group className="mb-3">
+  <Form.Label>Schlagwört</Form.Label>
+  <div>
+    <Form.Check
+      type="checkbox"
+      label="JavaScript"
+      checked={schlagwoerter.includes("JAVASCRIPT")}
+      onChange={() => toggleSchlagwort("JAVASCRIPT")}
+    />
+    <Form.Check
+      type="checkbox"
+      label="TypeScript"
+      checked={schlagwoerter.includes("TYPESCRIPT")}
+      onChange={() => toggleSchlagwort("TYPESCRIPT")}
+    />
+    <Form.Check
+      type="checkbox"
+      label="Java"
+      checked={schlagwoerter.includes("JAVA")}
+      onChange={() => toggleSchlagwort("JAVA")}
+    />
+    <Form.Check
+      type="checkbox"
+      label="Python"
+      checked={schlagwoerter.includes("PYTHON")}
+      onChange={() => toggleSchlagwort("PYTHON")}
+    />
+  </div>
+</Form.Group>
 
         <Button variant="primary" type="submit">
           🔎 Suchen
