@@ -38,9 +38,9 @@ export default function LoginPage() {
 
       if (result.data?.token?.access_token) {
         const token = result.data.token.access_token
-        localStorage.setItem('access_token', token) // ✅ 保存 token
+        localStorage.setItem('access_token', token) // token speichern
         setError('')
-        router.push('/') // ✅ 登录成功跳转
+        router.push('/') // Weiterleitung zur Startseite
       } else {
         setError(result.errors?.[0]?.message || 'Unbekannter Fehler beim Login.')
       }
