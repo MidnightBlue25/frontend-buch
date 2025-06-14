@@ -2,20 +2,50 @@
 
 import { useState } from 'react'
 import { Form, Button, Alert, Container } from 'react-bootstrap'
+import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
     if (username === '' || password === '') {
       setError('Benutzername und Passwort dürfen nicht leer sein.')
-    } else {
-      setError('')
-      alert(`Login erfolgreich! ${username}`)
-      // Hier könnte eine API-Anfrage zum Login erfolgen
+      return
+    }
+
+    // 🔐 GraphQL Login Mutation
+    const query = `
+      mutation {
+        token(username: "${username}", password: "${password}") {
+          access_token
+        }
+      }
+    `
+
+    try {
+      const response = await fetch('https://localhost:3000/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query })
+      })
+
+      const result = await response.json()
+
+      if (result.data?.token?.access_token) {
+        const token = result.data.token.access_token
+        localStorage.setItem('access_token', token) // ✅ 保存 token
+        setError('')
+        router.push('/') // ✅ 登录成功跳转
+      } else {
+        setError(result.errors?.[0]?.message || 'Unbekannter Fehler beim Login.')
+      }
+    } catch (err) {
+      setError('Fehler beim Senden der Anfrage.')
     }
   }
 
@@ -24,7 +54,7 @@ export default function LoginPage() {
       <h2>Einloggen</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formUsername">
+        <Form.Group className="mt-3 mb-3" controlId="formUsername">
           <Form.Label>Benutzername</Form.Label>
           <Form.Control
             type="text"

@@ -3,6 +3,16 @@
   --foreground: #171717;
 }
 
+[data-theme="dark"] {
+  --background: #2b2b2b;
+  --foreground: #ededed;
+}
+
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -39,4 +49,37 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+/* DARK MODE STYLES (via data-theme) */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Bootstrap-Komponenten im Dark Mode */
+[data-theme="dark"] body,
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select,
+[data-theme="dark"] button,
+[data-theme="dark"] .offcanvas,
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .card,
+[data-theme="dark"] .dropdown-menu {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+/* Platzhalter in Inputs */
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--foreground);
+  opacity: 0.6;
+}
+
+/* Offcanvas Header & Body */
+[data-theme="dark"] .offcanvas-header,
+[data-theme="dark"] .offcanvas-body {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
 }

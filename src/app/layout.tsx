@@ -1,23 +1,26 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './globals.css'
-import Headers from '@/components/header'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './globals.css';
+import Headers from '@/components/header';
+import ApolloProviderWrapper from '@/components/ApolloProviderWrapper';
 
 export const metadata = {
   title: 'Buch SPA',
   description: 'Frontend für Buch Backend mit Next.js und React-Bootstrap',
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body>
-        <Headers />
-        <main>{children}</main>
+        <ApolloProviderWrapper>
+          <Headers />
+          <main>{children}</main>
+        </ApolloProviderWrapper>
       </body>
     </html>
-  )
+  );
 }
