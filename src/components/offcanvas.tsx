@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { RxHamburgerMenu } from "react-icons/rx";
+import IsbnGenerator from './isbnGenerator';
 
 export default function SimpleOffcanvas() {
   const [show, setShow] = useState(false);
@@ -21,6 +22,9 @@ export default function SimpleOffcanvas() {
           <Offcanvas.Title>Sidebar</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
+          {/* <h5>Tools</h5>  {/* → Überschrift */}
+            <IsbnGenerator />
+            <br />
           <p>&quot;Hier werden noch Sachen folgen.&quot; – Developer</p>
         </Offcanvas.Body>
       </Offcanvas>
