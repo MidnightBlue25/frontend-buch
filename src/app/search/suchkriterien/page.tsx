@@ -50,6 +50,8 @@ export default function SuchkriterienPage() {
   const [art, setArt] = useState("");
   const [lieferbar, setLieferbar] = useState("");
   const [schlagwoerter, setSchlagwoerter] = useState<string[]>([]);
+  // die Bucher werden hier gespeichert, wenn die Suche erfolgreich ist
+  const [gefilterteBuecher, setGefilterteBuecher] = useState<Buch[] | null>(null);
 
   const toggleSchlagwort = (wert: string) => {
   setSchlagwoerter((prev) =>
@@ -59,25 +61,39 @@ export default function SuchkriterienPage() {
   );
 };
   // --- 查询执行器：调用 search() 会发送 GraphQL 请求 ---
-  const [search, { data, loading, error }] = useLazyQuery<{ buecher: Buch[] }>(QUERY);
+  const [search, { loading, error }] = useLazyQuery<{ buecher: Buch[] }>(QUERY);
 
   // ==================== 第 4 部分：点击“搜索”时的处理函数 ====================
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // 阻止表单默认提交行为（防止页面刷新）
 
     // 构造 suchkriterien 对象，只有填写的字段才会被传给后端
-    search({
-      variables: {
-        suchkriterien: {
-          isbn: isbn || undefined, // 如果输入为空，则传 undefined
-          titel: titel || undefined,
-          art: art || undefined,
-          lieferbar:
-            lieferbar === "" ? undefined : lieferbar === "true",
-          schlagwoerter: schlagwoerter.length > 0 ? schlagwoerter : undefined,
-        },
-      },
-    });
+  const filterInput = {
+    isbn: isbn || undefined,
+    titel: titel || undefined,
+    art: art || undefined,
+    lieferbar: lieferbar === "" ? undefined : lieferbar === "true",
+  };
+
+  search({
+    variables: { suchkriterien: filterInput },
+    onCompleted: (result) => {
+      const alleBuecher = result.buecher;
+
+      // 🔍 如果没有勾选关键词，全部保留
+      if (schlagwoerter.length === 0) {
+        setGefilterteBuecher(alleBuecher);
+      } else {
+        // 🔍 如果勾选了关键词，就自己筛选
+        const gefiltert = alleBuecher.filter((buch) =>
+          buch.schlagwoerter?.some((wort) =>
+            schlagwoerter.includes(wort.toUpperCase())
+          )
+        );
+        setGefilterteBuecher(gefiltert);
+      }
+    },
+  });
   };
 
   // ==================== 第 5 部分：前端页面展示 ====================
@@ -201,22 +217,23 @@ export default function SuchkriterienPage() {
       )}
 
       {/* 显示搜索结果 */}
-      {data?.buecher.length ? (
+      {gefilterteBuecher?.length ? (
         <Card className="mt-4">
           <Card.Header>Ergebnisse</Card.Header>
           <ListGroup variant="flush">
-            {data.buecher.map((buch, index) => (
+            {gefilterteBuecher.map((buch, index) => (
               <ListGroup.Item key={index}>
                 <strong>ISBN:</strong> {buch.isbn}
-                |<strong>Title:</strong> {buch.titel.titel}
-                |<strong> Art:</strong> {buch.art} 
-                |<strong> Preis:</strong> {buch.preis} €
-              </ListGroup.Item>
+               | <strong>Title:</strong> {buch.titel.titel}
+               | <strong>Art:</strong> {buch.art}
+               | <strong>Preis:</strong> {buch.preis} €
+               | <strong>Schlagwörter:</strong> {buch.schlagwoerter.join(", ")}
+             </ListGroup.Item>
             ))}
-          </ListGroup>
+         </ListGroup>
         </Card>
       ) : (
-        data && (
+        gefilterteBuecher && (
           <p className="mt-4 text-muted text-center">Keine Treffer gefunden.</p>
         )
       )}
