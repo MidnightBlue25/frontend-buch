@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
+import { TbLogin, TbLogout } from 'react-icons/tb';
 
 export default function HeaderLoginButton() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,11 +45,22 @@ export default function HeaderLoginButton() {
     <div style={{ position: 'relative' }}>
       <Button
         variant={isLoggedIn ? 'outline-danger' : 'outline-primary'}
-        className="px-3 py-1"
+        className="px-3 py-1 d-flex align-items-center gap-2"
         onClick={isLoggedIn ? handleLogout : handleLoginClick}
-      >
-        {isLoggedIn ? 'Logout' : 'Login'}
-      </Button>
+        >
+            {/* icon von login und logout */}
+        {isLoggedIn ? (
+            <>
+            <TbLogout size={18} />
+            Logout
+            </>
+        ) : (
+            <>
+            <TbLogin size={18} />
+            Login
+            </>
+        )}
+        </Button>
 
       {/* login nachricht */}
   {showLoginSuccess && (
