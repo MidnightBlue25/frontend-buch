@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { CREATE_BUCH } from '@/graphql/createBuch';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 export default function AddBookPage() {
   const [formData, setFormData] = useState({
@@ -71,6 +72,11 @@ export default function AddBookPage() {
     <Container className="mt-5 pb-5">
       <Row className="justify-content-center">
         <Col md={8}>
+    <Breadcrumb>
+      <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+      <Breadcrumb.Item active>Neu</Breadcrumb.Item>
+    </Breadcrumb>
+
           <h2>Neues Buch anlegen</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mt-3 mb-3" controlId="formTitel">

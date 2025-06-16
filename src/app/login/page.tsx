@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Form, Button, Alert, Container } from 'react-bootstrap'
 import { useRouter } from 'next/navigation'
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
@@ -51,6 +52,11 @@ export default function LoginPage() {
 
   return (
     <Container style={{ maxWidth: '400px', marginTop: '100px' }}>
+    <Breadcrumb className="mb-4">
+      <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+      <Breadcrumb.Item active>Login</Breadcrumb.Item>
+    </Breadcrumb>
+
       <h2>Einloggen</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>

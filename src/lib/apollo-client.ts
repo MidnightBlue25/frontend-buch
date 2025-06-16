@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'https://localhost:3000/graphql', // ✅ 改为你的后端地址
+  uri: 'https://localhost:3000/graphql',
 });
 
 // 自动附加 token 到请求头

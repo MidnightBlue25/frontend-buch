@@ -11,6 +11,7 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 // ==================== 第 1 部分：GraphQL 查询语句 ====================
 // GraphQL 查询名为 `Suche`，带一个输入参数 `suchkriterien`（对象）
@@ -82,6 +83,15 @@ export default function SuchkriterienPage() {
   // ==================== 第 5 部分：前端页面展示 ====================
   return (
     <Container className="mt-5" style={{ maxWidth: "720px" }}>
+    <Breadcrumb>
+      <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+      <Breadcrumb.Item href="/search">
+        Suchen
+      </Breadcrumb.Item>
+      <Breadcrumb.Item active>Suchkriterien</Breadcrumb.Item>
+    </Breadcrumb>
+
+
       <h2 className="mb-4 text-center">🔍 Suche mit Kriterien</h2>
 
       {/* 搜索表单 */}
