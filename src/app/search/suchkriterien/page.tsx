@@ -84,12 +84,13 @@ export default function SuchkriterienPage() {
       if (schlagwoerter.length === 0) {
         setGefilterteBuecher(alleBuecher);
       } else {
-        // 🔍 如果勾选了关键词，就自己筛选
+        // Falls es gibt schlagwoerter, dann filtern
+        //muss alle Bücher haben, die alle Schlagwörter enthalten
         const gefiltert = alleBuecher.filter((buch) =>
-          buch.schlagwoerter?.some((wort) =>
-            schlagwoerter.includes(wort.toUpperCase())
-          )
-        );
+          schlagwoerter.every((tag) =>
+            buch.schlagwoerter?.map((w) => w.toUpperCase()).includes(tag)
+            )
+          );
         setGefilterteBuecher(gefiltert);
       }
     },
