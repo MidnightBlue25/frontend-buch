@@ -29,26 +29,34 @@ export default function LoginPage() {
     `
 
     try {
-      const response = await fetch('https://localhost:3000/graphql', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query })
-      })
+  const response = await fetch('https://localhost:3000/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
+  });
 
-      const result = await response.json()
+  const result = await response.json();
 
-      if (result.data?.token?.access_token) {
-        const token = result.data.token.access_token
-        localStorage.setItem('access_token', token) // token speichern
-        localStorage.setItem('justLoggedIn', 'true');
-        setError('')
-        router.replace('/');// mit router abbrechen, damit die Seite neu geladen wird
-        window.location.href = '/'; // der window gehe zurück zu startseite und dann neu laden
-        setError(result.errors?.[0]?.message || 'Unbekannter Fehler beim Login.')
-      }
-    } catch (err) {
-      setError('Fehler beim Senden der Anfrage.')
-    }
+  // Erste prüfen, ob es Fehler gibt bei der Anfrage
+  if (result.errors && result.errors.length > 0) {
+    setError(result.errors[0].message || 'Fehler beim Login.');
+    return;
+  }
+
+  // und dann prüfen, ob das Token vorhanden ist
+  if (result.data?.token?.access_token) {
+    const token = result.data.token.access_token;
+    localStorage.setItem('access_token', token);
+    localStorage.setItem('justLoggedIn', 'true');
+    setError('');
+    window.location.href = '/'; // zurück zu Startseite
+  } else {
+    setError('Login fehlgeschlagen: Kein Token erhalten.');
+  }
+} catch (err) {
+  setError('Fehler beim Senden der Anfrage.');
+}
+
   }
 
   return (
