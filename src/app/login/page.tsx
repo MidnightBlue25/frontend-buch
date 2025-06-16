@@ -19,7 +19,7 @@ export default function LoginPage() {
       return
     }
 
-    // 🔐 GraphQL Login Mutation
+    // GraphQL Login Mutation
     const query = `
       mutation {
         token(username: "${username}", password: "${password}") {
@@ -39,10 +39,11 @@ export default function LoginPage() {
 
       if (result.data?.token?.access_token) {
         const token = result.data.token.access_token
-        localStorage.setItem('access_token', token) // ✅ 保存 token
+        localStorage.setItem('access_token', token) // token speichern
+        localStorage.setItem('justLoggedIn', 'true');
         setError('')
-        router.push('/') // ✅ 登录成功跳转
-      } else {
+        router.replace('/');// mit router abbrechen, damit die Seite neu geladen wird
+        window.location.href = '/'; // der window gehe zurück zu startseite und dann neu laden
         setError(result.errors?.[0]?.message || 'Unbekannter Fehler beim Login.')
       }
     } catch (err) {
