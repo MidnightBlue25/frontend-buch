@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import { Modal } from 'react-bootstrap';
 
 // ==================== 第 1 部分：GraphQL 查询语句 ====================
 // GraphQL 查询名为 `Suche`，带一个输入参数 `suchkriterien`（对象）
@@ -19,9 +20,15 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 const QUERY = gql`
   query Suche($suchkriterien: SuchkriterienInput) {
     buecher(suchkriterien: $suchkriterien) {
+      id
+      version
       isbn
+      rating
       art
       preis
+      lieferbar
+      datum
+      homepage
       schlagwoerter
       titel {
         titel
@@ -33,9 +40,15 @@ const QUERY = gql`
 // ==================== 第 2 部分：图书类型定义（匹配 GraphQL 返回数据） ====================
 //这些字段是我“期望”从后端拿到的内容。
 type Buch = {
+  id: number
+  version: number
   isbn: string;
+  rating: number
   art: string;
   preis: number;
+  lieferbar: boolean
+  datum: string
+  homepage: string
   schlagwoerter: string[];
   titel: {
     titel: string;
@@ -52,6 +65,8 @@ export default function SuchkriterienPage() {
   const [schlagwoerter, setSchlagwoerter] = useState<string[]>([]);
   // die Bucher werden hier gespeichert, wenn die Suche erfolgreich ist
   const [gefilterteBuecher, setGefilterteBuecher] = useState<Buch[] | null>(null);
+  const [selectedBuch, setSelectedBuch] = useState<Buch | null>(null); // 当前点击的书
+  const [showModal, setShowModal] = useState(false); // 是否显示 Modal
 
   const toggleSchlagwort = (wert: string) => {
   setSchlagwoerter((prev) =>
@@ -229,6 +244,17 @@ export default function SuchkriterienPage() {
                | <strong>Art:</strong> {buch.art}
                | <strong>Preis:</strong> {buch.preis} €
                | <strong>Schlagwörter:</strong> {buch.schlagwoerter.join(", ")}
+               <Button
+                  variant="info"
+                  size="sm"
+                  className="ms-2"
+                  onClick={() => {
+                    setSelectedBuch(buch);
+                    setShowModal(true);
+                  }}
+                >
+                  Weitere Info
+                </Button>
              </ListGroup.Item>
             ))}
          </ListGroup>
@@ -238,6 +264,35 @@ export default function SuchkriterienPage() {
           <p className="mt-4 text-muted text-center">Keine Treffer gefunden.</p>
         )
       )}
+
+<Modal show={showModal} onHide={() => setShowModal(false)} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Buchdetails</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {selectedBuch && (
+      <>
+        <p><strong>ID:</strong> {selectedBuch.id}</p>
+        <p><strong>Version:</strong> {selectedBuch.version}</p>
+        <p><strong>Title:</strong> {selectedBuch.titel.titel}</p>
+        <p><strong>ISBN:</strong> {selectedBuch.isbn}</p>
+        <p><strong>Rating:</strong> {selectedBuch.rating}</p>
+        <p><strong>Art:</strong> {selectedBuch.art}</p>
+        <p><strong>Preis:</strong> {selectedBuch.preis} €</p>
+        <p><strong>Lieferbar:</strong> {selectedBuch.lieferbar ? 'Ja' : 'Nein'}</p>
+        <p><strong>Datum:</strong> {selectedBuch.datum}</p>
+        <p><strong>Homepage:</strong> {selectedBuch.homepage || '–'}</p>
+        <p><strong>Schlagwörter:</strong> {selectedBuch.schlagwoerter?.join(', ')}</p>
+      </>
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Schließen
+    </Button>
+  </Modal.Footer>
+</Modal>
+
     </Container>
   );
 }
