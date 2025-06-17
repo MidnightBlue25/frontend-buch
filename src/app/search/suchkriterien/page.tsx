@@ -219,7 +219,7 @@ export default function SuchkriterienPage() {
 
       {/* 显示搜索结果 */}
       {gefilterteBuecher?.length ? (
-        <Card className="mt-4">
+        <Card className="mt-4 mb-5">
           <Card.Header>Ergebnisse</Card.Header>
           <ListGroup variant="flush">
             {gefilterteBuecher.map((buch, index) => (

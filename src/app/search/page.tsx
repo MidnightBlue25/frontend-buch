@@ -109,7 +109,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         </Alert>
       )}
       {buch ? (
-        <Card>
+        <Card className="mb-5">
           <Card.Header>Gefundene Buchdaten</Card.Header>
           <Card.Body>
             <ListGroup variant="flush">
