@@ -135,7 +135,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
                 <strong>Datum:</strong> {buch.datum}
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Homepage:</strong>{" "}
+                <strong>Homepage:</strong> {buch.homepage || "–"}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Schlagwörter:</strong>{" "}
