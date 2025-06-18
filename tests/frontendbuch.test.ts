@@ -1,0 +1,21 @@
+import { test, expect } from '@playwright/test';
+import { StartseitePage } from './pages/StartseitePage';
+import { SuchPage } from './pages/SuchPage';
+
+test('has title', async ({ page }) => {
+  await page.goto('http://localhost:3001/');
+
+  // Expect a title "Buch SPA" a substring.
+  await expect(page).toHaveTitle('Buch SPA');
+});
+
+test('go to suche page', async ({ page }) => {
+  const startseite = new StartseitePage(page);
+
+  await page.goto('http://localhost:3001/');
+
+  await startseite.clickSuche();
+
+  // Expects page to have a heading with the name of Buch Details.
+  await expect(page.getByRole('heading', { name: 'Buch Details' })).toBeVisible();
+});

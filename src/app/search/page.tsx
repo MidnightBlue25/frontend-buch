@@ -81,7 +81,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         <Link href="/search/suchkriterien" passHref>
           <Button variant="outline-primary">🔍 Suche mit Kriterien</Button>
         </Link>
-    <h2 className="text-center flex-grow-1 mb-0">📚 Buch Details</h2>
+    <h2 className="text-center flex-grow-1 mb-0">Buch Details</h2>
     <div style={{ width: "150px" }} /> {/* die titel wird in der mittel */}
   </div>
 

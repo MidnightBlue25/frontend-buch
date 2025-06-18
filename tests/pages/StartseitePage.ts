@@ -8,11 +8,6 @@ export class StartseitePage {
   readonly loginButton = this.page.getByRole('button', { name: 'Login' });
   readonly logoutButton = this.page.getByRole('button', { name: 'Logout' });
 
-
-  async goto() {
-    await this.page.goto('/');
-  }
-
   async clickSuche() {
     await this.sucheLink.click();
   }

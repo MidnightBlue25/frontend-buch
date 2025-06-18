@@ -3,7 +3,7 @@ import { Page } from '@playwright/test';
 export class SuchPage {
   constructor(private page: Page) {}
 
-  readonly idInput = this.page.getByPlaceholder('Gib eine Buch-ID ein, z.B. 1');
+  readonly idInput = this.page.getByRole('textbox', { name: 'Gib eine Buch-ID ein, z.B. 1' });
   readonly suchenButton = this.page.getByRole('button', { name: 'Suchen' });
   readonly kriterienButton = this.page.getByRole('button', { name: 'Kriterien' });
 
