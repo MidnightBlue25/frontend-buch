@@ -22,39 +22,47 @@ const query = gql`
       schlagwoerter
       titel {
         titel
+        untertitel
     }
       rabatt(short: true)
   }
     }
 `;
-type Titel = {
-  titel: string
-  untertitel: string
-}
+//type Titel = {
+//  titel: string
+//  untertitel: string
+//}
 
 //type Abbildung = {
 //  beschriftung: string
 //  contentType: string
 //}
 
-enum Art {
-  EPUB,
-  HARDCOVER,
-  PAPERBACK
-}
+//enum Art {
+//  EPUB,
+//  HARDCOVER,
+//  PAPERBACK
+//}
 
 type Buch = {
   id: number
   version: number
   isbn: string
   rating: number
-  art: Art
+  art: string
   preis: number
   lieferbar: boolean
   datum: string
   homepage: string
   schlagwoerter: [string]
-  titel: Titel
+  titel: {
+    titel: string;
+    untertitel: string;
+  };
+  abbildung: {
+    beschriftung: string;
+    contentType: string;
+  };
   rabatt: string
 }
 
@@ -143,6 +151,9 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Titel:</strong> {buch.titel.titel}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Untertitle:</strong> {buch.titel.untertitel}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Rabatt:</strong> {buch.rabatt}

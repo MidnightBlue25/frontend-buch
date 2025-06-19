@@ -32,6 +32,7 @@ const QUERY = gql`
       schlagwoerter
       titel {
         titel
+        untertitel
       }
     }
   }
@@ -52,6 +53,7 @@ type Buch = {
   schlagwoerter: string[];
   titel: {
     titel: string;
+    untertitel: string;
   };
 };
 
@@ -274,6 +276,7 @@ export default function SuchkriterienPage() {
         <p><strong>ID:</strong> {selectedBuch.id}</p>
         <p><strong>Version:</strong> {selectedBuch.version}</p>
         <p><strong>Title:</strong> {selectedBuch.titel.titel}</p>
+        <p><strong>Untertitle:</strong> {selectedBuch.titel.untertitel}</p>
         <p><strong>ISBN:</strong> {selectedBuch.isbn}</p>
         <p><strong>Rating:</strong> {selectedBuch.rating}</p>
         <p><strong>Art:</strong> {selectedBuch.art}</p>
