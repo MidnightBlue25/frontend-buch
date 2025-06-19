@@ -137,7 +137,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
                 <strong>Preis:</strong> {buch.preis} €
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Lieferbar:</strong> {buch.lieferbar}
+                <strong>Lieferbar:</strong> {buch.lieferbar ? "Ja" : "Nein"}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Datum:</strong> {buch.datum}
