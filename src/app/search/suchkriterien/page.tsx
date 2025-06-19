@@ -26,6 +26,7 @@ const QUERY = gql`
       rating
       art
       preis
+      rabatt
       lieferbar
       datum
       homepage
@@ -47,6 +48,7 @@ type Buch = {
   rating: number
   art: string;
   preis: number;
+  rabatt?: string;
   lieferbar: boolean
   datum: string
   homepage: string
@@ -241,7 +243,7 @@ export default function SuchkriterienPage() {
             {gefilterteBuecher.map((buch, index) => (
               <ListGroup.Item key={index}>
                 <strong>ISBN:</strong> {buch.isbn}
-               | <strong>Title:</strong> {buch.titel.titel}
+               | <strong>Titel:</strong> {buch.titel.titel}
                | <strong>Art:</strong> {buch.art}
                | <strong>Preis:</strong> {buch.preis} €
                | <strong>Schlagwörter:</strong> {buch.schlagwoerter.join(", ")}
@@ -275,12 +277,13 @@ export default function SuchkriterienPage() {
       <>
         <p><strong>ID:</strong> {selectedBuch.id}</p>
         <p><strong>Version:</strong> {selectedBuch.version}</p>
-        <p><strong>Title:</strong> {selectedBuch.titel.titel}</p>
-        <p><strong>Untertitle:</strong> {selectedBuch.titel.untertitel}</p>
+        <p><strong>Titel:</strong> {selectedBuch.titel.titel}</p>
+        <p><strong>Untertitel:</strong> {selectedBuch.titel.untertitel}</p>
         <p><strong>ISBN:</strong> {selectedBuch.isbn}</p>
         <p><strong>Rating:</strong> {selectedBuch.rating}</p>
         <p><strong>Art:</strong> {selectedBuch.art}</p>
         <p><strong>Preis:</strong> {selectedBuch.preis} €</p>
+        <p><strong>Rabatt:</strong> {selectedBuch.rabatt || '–'}</p>
         <p><strong>Lieferbar:</strong> {selectedBuch.lieferbar ? 'Ja' : 'Nein'}</p>
         <p><strong>Datum:</strong> {selectedBuch.datum}</p>
         <p><strong>Homepage:</strong> {selectedBuch.homepage || '–'}</p>
