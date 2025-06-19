@@ -79,7 +79,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
 
       <div className="d-flex justify-content-between align-items-center mb-4">
         <Link href="/search/suchkriterien" passHref>
-          <Button variant="outline-primary">🔍 Suche mit Kriterien</Button>
+          <Button variant="outline-primary"> Suche mit Kriterien</Button>
         </Link>
     <h2 className="text-center flex-grow-1 mb-0">Buch Details</h2>
     <div style={{ width: "150px" }} /> {/* die titel wird in der mittel */}
@@ -151,7 +151,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
           </Card.Body>
         </Card>
       ) : (
-        !loading && <p className="text-muted text-center">🔍 Keine Daten gefunden.</p>
+        !loading && <p className="text-muted text-center"> Keine Daten gefunden.</p>
       )}
     </Container>
   );

@@ -123,7 +123,7 @@ export default function SuchkriterienPage() {
     </Breadcrumb>
 
 
-      <h2 className="mb-4 text-center">🔍 Suche mit Kriterien</h2>
+      <h2 className="mb-4 text-center">Suche mit Kriterien</h2>
 
       {/* suchen form */}
       <Form onSubmit={handleSubmit}>
@@ -213,7 +213,7 @@ export default function SuchkriterienPage() {
 </Form.Group>
 
         <Button variant="primary" type="submit">
-          🔎 Suchen
+           Suchen
         </Button>
       </Form>
 

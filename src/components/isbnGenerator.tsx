@@ -57,6 +57,7 @@ export default function IsbnGenerator() {
             readOnly
             value={formatIsbn(isbn)} // Formatierte Ausgabe
             className="mb-2"
+            aria-label="Generierte ISBN"
           />
           <Button
             variant="outline-secondary"

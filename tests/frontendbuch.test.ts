@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { StartseitePage } from './pages/StartseitePage';
-import { SuchPage } from './pages/SuchPage';
-import { SuchkriterienPage } from './pages/SuchkriterienPage';
-import { LoginPage } from './pages/LoginPage';
-import { LogoutPage } from './pages/LogoutPage';
-import { AddBookPage } from './pages/AddBookPage';
+import { StartseitePage } from './pages/startseitePage';
+import { SuchPage } from './pages/suchPage';
+import { SuchkriterienPage } from './pages/suchkriterienPage';
+import { LoginPage } from './pages/loginPage';
+import { LogoutPage } from './pages/logoutPage';
+import { AddBookPage } from './pages/addBookPage';
 
 test('has title', async ({ page }) => {
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
 
   // Expect a title "Buch SPA" a substring.
   await expect(page).toHaveTitle('Buch SPA');
@@ -16,7 +16,7 @@ test('has title', async ({ page }) => {
 test('go to suche page', async ({ page }) => {
   const startseite = new StartseitePage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
 
   await startseite.clickSuche();
 
@@ -27,7 +27,7 @@ test('go to suche page', async ({ page }) => {
 test('go to neu page', async ({ page }) => {
   const startseite = new StartseitePage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
 
   await startseite.clickNeu();
 
@@ -38,7 +38,7 @@ test('go to neu page', async ({ page }) => {
 test('go to login page', async ({ page }) => {
   const startseite = new StartseitePage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
 
   await startseite.clickLogin();
 
@@ -50,7 +50,7 @@ test('Search with ID', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const suchePage = new SuchPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickSuche();
 
   await suchePage.enterId('1');
@@ -62,15 +62,15 @@ test('Search with ID', async ({ page }) => {
 test('Search with isbn', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const suchePage = new SuchPage(page);
-  const suchkriterienPage = new SuchkriterienPage(page);
+  const suchkriterien = new SuchkriterienPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickSuche();
 
   await suchePage.clickKriterien();
 
-  await suchkriterienPage.enterISBN('978-3-897-22583-1');
-  await suchkriterienPage.clickSuchen();
+  await suchkriterien.enterISBN('978-3-897-22583-1');
+  await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-897-22583-1|')).toBeVisible();
   await expect(page.getByText('Title: Alpha|')).toBeVisible();
@@ -79,15 +79,15 @@ test('Search with isbn', async ({ page }) => {
 test('Search with title', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const suchePage = new SuchPage(page);
-  const suchkriterienPage = new SuchkriterienPage(page);
+  const suchkriterien = new SuchkriterienPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickSuche();
 
   await suchePage.clickKriterien();
 
-  await suchkriterienPage.enterTitle('be');
-  await suchkriterienPage.clickSuchen();
+  await suchkriterien.enterTitle('be');
+  await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-827-31552-6|')).toBeVisible();
   await expect(page.getByText('Title: Beta|')).toBeVisible();
@@ -96,15 +96,15 @@ test('Search with title', async ({ page }) => {
 test('Search with art', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const suchePage = new SuchPage(page);
-  const suchkriterienPage = new SuchkriterienPage(page);
+  const suchkriterien = new SuchkriterienPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickSuche();
 
   await suchePage.clickKriterien();
 
-  await suchkriterienPage.selectArt('EPUB');
-  await suchkriterienPage.clickSuchen();
+  await suchkriterien.selectArt('EPUB');
+  await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-897-22583-1|')).toBeVisible();
   await expect(page.getByText('Title: Alpha|')).toBeVisible();
@@ -115,15 +115,15 @@ test('Search with art', async ({ page }) => {
 test('Search with lieferbar', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const suchePage = new SuchPage(page);
-  const suchkriterienPage = new SuchkriterienPage(page);
+  const suchkriterien = new SuchkriterienPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickSuche();
 
   await suchePage.clickKriterien();
 
-  await suchkriterienPage.selectLieferbar('false');
-  await suchkriterienPage.clickSuchen();
+  await suchkriterien.selectLieferbar('false');
+  await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-540-43081-0|')).toBeVisible();
   await expect(page.getByText('Title: Phi|')).toBeVisible();
@@ -134,31 +134,52 @@ test('Search with lieferbar', async ({ page }) => {
 test('Search with schlagwort', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const suchePage = new SuchPage(page);
-  const suchkriterienPage = new SuchkriterienPage(page);
+  const suchkriterien = new SuchkriterienPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickSuche();
 
   await suchePage.clickKriterien();
 
-  await suchkriterienPage.selectSchlagwoerter(['JavaScript', 'TypeScript']);
-  await suchkriterienPage.clickSuchen();
+  await suchkriterien.selectSchlagwoerter(['JavaScript', 'TypeScript']);
+  await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-827-31552-6|')).toBeVisible();
   await expect(page.getByText('Title: Beta|')).toBeVisible();
 });
 
+test('Search with multiple criteria', async ({ page }) => {
+  const startseite = new StartseitePage(page);
+  const suchePage = new SuchPage(page);
+  const suchkriterien = new SuchkriterienPage(page);
+
+  await page.goto('https://localhost:3001/');
+  await startseite.clickSuche();
+
+  await suchePage.clickKriterien();
+
+  await suchkriterien.selectArt('HARDCOVER');
+  await suchkriterien.selectLieferbar('true');
+  await suchkriterien.selectSchlagwort('JavaScript');
+  await suchkriterien.clickSuchen();
+
+  await expect(page.getByText('ISBN: 978-3-827-31552-6|')).toBeVisible();
+  await expect(page.getByText('Title: Beta|')).toBeVisible();
+  await expect(page.getByText('ISBN: 978-0-321-19368-1|')).toBeVisible();
+  await expect(page.getByText('Title: Zeta|')).toBeVisible();
+});
+
 test('login', async ({ page }) => {
   const startseite = new StartseitePage(page);
-  const loginPage = new LoginPage(page);
+  const login = new LoginPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickLogin();
 
-  await loginPage.enterUsername('admin');
-  await loginPage.enterPasswort('p');
+  await login.enterUsername('admin');
+  await login.enterPasswort('p');
 
-  await loginPage.clickLogin();
+  await login.clickLogin();
 
   await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
@@ -166,19 +187,19 @@ test('login', async ({ page }) => {
 
 test('logout', async ({ page }) => {
   const startseite = new StartseitePage(page);
-  const loginPage = new LoginPage(page);
-  const logoutPage = new LogoutPage(page);
+  const login = new LoginPage(page);
+  const logout = new LogoutPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickLogin();
 
-  await loginPage.enterUsername('admin');
-  await loginPage.enterPasswort('p');
+  await login.enterUsername('admin');
+  await login.enterPasswort('p');
 
-  await loginPage.clickLogin();
+  await login.clickLogin();
 
-  await logoutPage.clickLogout();
-  await logoutPage.jaLogout();
+  await logout.clickLogout();
+  await logout.jaLogout();
 
   await expect(page.getByText('Erfolgreich ausgeloggt!')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
@@ -186,25 +207,30 @@ test('logout', async ({ page }) => {
 
 test('buch einlegen', async ({ page }) => {
   const startseite = new StartseitePage(page);
-  const loginPage = new LoginPage(page);
-  const addBookPage = new AddBookPage(page);
+  const login = new LoginPage(page);
+  const addBook = new AddBookPage(page);
 
-  await page.goto('http://localhost:3001/');
+  await page.goto('https://localhost:3001/');
   await startseite.clickLogin();
 
-  await loginPage.enterUsername('admin');
-  await loginPage.enterPasswort('p');
+  await login.enterUsername('admin');
+  await login.enterPasswort('p');
 
-  await loginPage.clickLogin();
+  await login.clickLogin();
   await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible();
 
+  await addBook.clicksidebar();
+  await addBook.clicknewisbn();
+
+  const isbn = await addBook.getGeneratedIsbn();
+  await addBook.clickclosesidebar();
+
   await startseite.clickNeu();
+  await addBook.addIsbn(isbn);
+  await addBook.addTitle('Testbuch');
+  await addBook.addHomepage('https://example.com');
 
-  await addBookPage.addIsbn('978-3-12-732320-7');
-  await addBookPage.addTitle('Testbuch');
-  await addBookPage.addHomepage('https://example.com');
-
-  await addBookPage.clickanlegen();
+  await addBook.clickanlegen();
 
   await expect(page.getByText('Buch erfolgreich angelegt!')).toBeVisible();
 });
