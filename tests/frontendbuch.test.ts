@@ -56,7 +56,7 @@ test('Search with ID', async ({ page }) => {
   await suchePage.enterId('1');
   await suchePage.clickSuchen();
 
-  await expect(page.getByText('ISBN: 978-3-897-22583-')).toBeVisible();
+  await expect(page.getByText('ISBN: 978-3-897-22583-1')).toBeVisible();
 });
 
 test('Search with isbn', async ({ page }) => {
