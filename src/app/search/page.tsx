@@ -74,7 +74,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     <Container className="mt-5" style={{ maxWidth: "720px" }}>
           <Breadcrumb>
             <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
-            <Breadcrumb.Item active>Suchen</Breadcrumb.Item>
+            <Breadcrumb.Item active>Suche</Breadcrumb.Item>
           </Breadcrumb>
 
       <div className="d-flex justify-content-between align-items-center mb-4">
