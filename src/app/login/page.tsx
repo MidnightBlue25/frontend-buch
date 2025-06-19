@@ -2,13 +2,12 @@
 
 import { useState } from 'react'
 import { Form, Button, Alert, Container } from 'react-bootstrap'
-import { useRouter } from 'next/navigation'
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,7 +17,7 @@ export default function LoginPage() {
       return
     }
 
-    // 🔐 GraphQL Login Mutation
+    // GraphQL Login Mutation
     const query = `
       mutation {
         token(username: "${username}", password: "${password}") {
@@ -28,29 +27,43 @@ export default function LoginPage() {
     `
 
     try {
-      const response = await fetch('https://localhost:3000/graphql', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query })
-      })
+  const response = await fetch('https://localhost:3000/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
+  });
 
-      const result = await response.json()
+  const result = await response.json();
 
-      if (result.data?.token?.access_token) {
-        const token = result.data.token.access_token
-        localStorage.setItem('access_token', token) // token speichern
-        setError('')
-        router.push('/') // Weiterleitung zur Startseite
-      } else {
-        setError(result.errors?.[0]?.message || 'Unbekannter Fehler beim Login.')
-      }
-    } catch (err) {
-      setError('Fehler beim Senden der Anfrage.')
-    }
+  // Erste prüfen, ob es Fehler gibt bei der Anfrage
+  if (result.errors && result.errors.length > 0) {
+    setError(result.errors[0].message || 'Fehler beim Login.');
+    return;
+  }
+
+  // und dann prüfen, ob das Token vorhanden ist
+  if (result.data?.token?.access_token) {
+    const token = result.data.token.access_token;
+    localStorage.setItem('access_token', token);
+    localStorage.setItem('justLoggedIn', 'true');
+    setError('');
+    window.location.href = '/'; // zurück zu Startseite
+  } else {
+    setError('Login fehlgeschlagen: Kein Token erhalten.');
+  }
+} catch (error) {
+  setError('Fehler beim Senden der Anfrage.');
+}
+
   }
 
   return (
     <Container style={{ maxWidth: '400px', marginTop: '100px' }}>
+    <Breadcrumb className="mb-4">
+      <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+      <Breadcrumb.Item active>Login</Breadcrumb.Item>
+    </Breadcrumb>
+
       <h2>Einloggen</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit}>

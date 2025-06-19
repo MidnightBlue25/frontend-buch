@@ -6,7 +6,7 @@ import { gql, useLazyQuery } from "@apollo/client";
 import { useState } from "react";
 import { Button, Container, Form, Card, ListGroup, InputGroup, Alert, Spinner } from 'react-bootstrap';
 import Link from "next/link";
-
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 const query = gql`
   query ($id: ID!) {
@@ -63,7 +63,7 @@ export default function BuchPage() {
   const [search, { data, loading, error }] = useLazyQuery<{ buch: Buch }>(query);
 
 const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault(); // ⛳️ 关键补丁！
+  e.preventDefault(); // wichtig, um das Standard-Formularverhalten zu verhindern
   if (id.trim() !== "") {
     search({ variables: { id: Number(id) } });
   }
@@ -72,12 +72,17 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <Container className="mt-5" style={{ maxWidth: "720px" }}>
+          <Breadcrumb>
+            <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+            <Breadcrumb.Item active>Suchen</Breadcrumb.Item>
+          </Breadcrumb>
+
       <div className="d-flex justify-content-between align-items-center mb-4">
         <Link href="/search/suchkriterien" passHref>
           <Button variant="outline-primary">🔍 Suche mit Kriterien</Button>
         </Link>
-    <h2 className="text-center flex-grow-1 mb-0">📚 Buch Details</h2>
-    <div style={{ width: "150px" }} /> {/* 占位，保持标题居中 */}
+    <h2 className="text-center flex-grow-1 mb-0">Buch Details</h2>
+    <div style={{ width: "150px" }} /> {/* die titel wird in der mittel */}
   </div>
 
       <Form onSubmit={handleSearch}>
@@ -104,7 +109,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         </Alert>
       )}
       {buch ? (
-        <Card>
+        <Card className="mb-5">
           <Card.Header>Gefundene Buchdaten</Card.Header>
           <Card.Body>
             <ListGroup variant="flush">
@@ -130,7 +135,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
                 <strong>Datum:</strong> {buch.datum}
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Homepage:</strong>{" "}
+                <strong>Homepage:</strong> {buch.homepage || "–"}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Schlagwörter:</strong>{" "}

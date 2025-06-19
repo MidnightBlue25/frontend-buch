@@ -11,16 +11,24 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import { Modal } from 'react-bootstrap';
 
-// ==================== 第 1 部分：GraphQL 查询语句 ====================
-// GraphQL 查询名为 `Suche`，带一个输入参数 `suchkriterien`（对象）
-// 后端会根据这个对象进行数据库搜索，并返回图书数组 buecher,也就是说这里的会影响他能找到什么。如果这里没有isbn那么他搜出来的isbn也是空的
+// hier sind GraphQL-Query
+// Die GraphQL-Abfrage heißt `Suche` und nimmt ein Eingabe `suchkriterien`.
+// Der Backend sucht in der Datenbank auf diesem Objekt und gibt ein Array von Büchern `buecher` zurück.
 const QUERY = gql`
   query Suche($suchkriterien: SuchkriterienInput) {
     buecher(suchkriterien: $suchkriterien) {
+      id
+      version
       isbn
+      rating
       art
       preis
+      lieferbar
+      datum
+      homepage
       schlagwoerter
       titel {
         titel
@@ -29,26 +37,35 @@ const QUERY = gql`
   }
 `;
 
-// ==================== 第 2 部分：图书类型定义（匹配 GraphQL 返回数据） ====================
-//这些字段是我“期望”从后端拿到的内容。
+// Typdefinition für Buch gemäß Rückgabedaten von GraphQL
+//Diese sind die Daten, die wir vom Backend erwarten.
 type Buch = {
+  id: number
+  version: number
   isbn: string;
+  rating: number
   art: string;
   preis: number;
+  lieferbar: boolean
+  datum: string
+  homepage: string
   schlagwoerter: string[];
   titel: {
     titel: string;
   };
 };
 
-// ==================== 第 3 部分：React 组件 ====================
+// React-Komponentes
 export default function SuchkriterienPage() {
-  // --- 搜索条件的状态变量（用户输入什么就存到这些变量里） ---
+  // Zustandsvariablen für die Suchkriterien (ist durch die eingabe gesetzt)
   const [isbn, setISBN] = useState("");
   const [titel, setTitel] = useState("");
   const [art, setArt] = useState("");
   const [lieferbar, setLieferbar] = useState("");
   const [schlagwoerter, setSchlagwoerter] = useState<string[]>([]);
+  const [gefilterteBuecher, setGefilterteBuecher] = useState<Buch[] | null>(null);   // die Bucher werden hier gespeichert, wenn die Suche erfolgreich ist
+  const [selectedBuch, setSelectedBuch] = useState<Buch | null>(null); // aktuelle Buch für Modal
+  const [showModal, setShowModal] = useState(false); // ob das Modal angezeigt wird
 
   const toggleSchlagwort = (wert: string) => {
   setSchlagwoerter((prev) =>
@@ -57,34 +74,58 @@ export default function SuchkriterienPage() {
       : [...prev, wert]
   );
 };
-  // --- 查询执行器：调用 search() 会发送 GraphQL 请求 ---
-  const [search, { data, loading, error }] = useLazyQuery<{ buecher: Buch[] }>(QUERY);
+  // useLazyQuery verwendet, um die Suche bei Klick zulösen
+  const [search, { loading, error }] = useLazyQuery<{ buecher: Buch[] }>(QUERY);
 
-  // ==================== 第 4 部分：点击“搜索”时的处理函数 ====================
+  // hier ist Funktion zum Absenden der Suchen
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // 阻止表单默认提交行为（防止页面刷新）
+    e.preventDefault(); // Verhindert Seitenreload
 
-    // 构造 suchkriterien 对象，只有填写的字段才会被传给后端
-    search({
-      variables: {
-        suchkriterien: {
-          isbn: isbn || undefined, // 如果输入为空，则传 undefined
-          titel: titel || undefined,
-          art: art || undefined,
-          lieferbar:
-            lieferbar === "" ? undefined : lieferbar === "true",
-          schlagwoerter: schlagwoerter.length > 0 ? schlagwoerter : undefined,
-        },
-      },
-    });
+    // suchkriterien das an die GraphQL-Abfrage übergeben wird
+  const filterInput = {
+    isbn: isbn || undefined,
+    titel: titel || undefined,
+    art: art || undefined,
+    lieferbar: lieferbar === "" ? undefined : lieferbar === "true",
   };
 
-  // ==================== 第 5 部分：前端页面展示 ====================
+  search({
+    variables: { suchkriterien: filterInput },
+    onCompleted: (result) => {
+      const alleBuecher = result.buecher;
+
+      // Alle Bücher nehmen wenn keine Schlagwörter ausgewählt sind
+      if (schlagwoerter.length === 0) {
+        setGefilterteBuecher(alleBuecher);
+      } else {
+        // Falls es gibt schlagwoerter, dann filtern
+        //muss alle Bücher haben, die alle Schlagwörter enthalten
+        const gefiltert = alleBuecher.filter((buch) =>
+          schlagwoerter.every((tag) =>
+            buch.schlagwoerter?.map((w) => w.toUpperCase()).includes(tag)
+            )
+          );
+        setGefilterteBuecher(gefiltert);
+      }
+    },
+  });
+  };
+
+  // hier Darstellung im Frontend
   return (
     <Container className="mt-5" style={{ maxWidth: "720px" }}>
+    <Breadcrumb>
+      <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+      <Breadcrumb.Item href="/search">
+        Suchen
+      </Breadcrumb.Item>
+      <Breadcrumb.Item active>Suchkriterien</Breadcrumb.Item>
+    </Breadcrumb>
+
+
       <h2 className="mb-4 text-center">🔍 Suche mit Kriterien</h2>
 
-      {/* 搜索表单 */}
+      {/* suchen form */}
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>ISBN</Form.Label>
@@ -112,7 +153,7 @@ export default function SuchkriterienPage() {
         key={value}
         type="radio"
         label={value}
-        name="art" // 所有 radio 的 name 必须一样才能单选
+        name="art" // alle Radio-Buttons müssen denselben Namen haben
         value={value}
         checked={art === value}
         onChange={(e) => setArt(e.target.value)}
@@ -142,7 +183,7 @@ export default function SuchkriterienPage() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-  <Form.Label>Schlagwört</Form.Label>
+  <Form.Label>Schlagwörter</Form.Label>
   <div>
     <Form.Check
       type="checkbox"
@@ -176,40 +217,81 @@ export default function SuchkriterienPage() {
         </Button>
       </Form>
 
-      {/* 加载状态 */}
+      {/* Ladeanzeige  */}
       {loading && (
         <div className="text-center mt-4">
         <Spinner animation="border" />
         </div>
       )}
 
-      {/* 错误信息 */}
+      {/* error massage */}
       {error && (
         <Alert variant="danger" className="mt-4">
         Fehler: {error.message}
         </Alert>
       )}
 
-      {/* 显示搜索结果 */}
-      {data?.buecher.length ? (
-        <Card className="mt-4">
+      {/* show such ergebniss */}
+      {gefilterteBuecher?.length ? (
+        <Card className="mt-4 mb-5">
           <Card.Header>Ergebnisse</Card.Header>
           <ListGroup variant="flush">
-            {data.buecher.map((buch, index) => (
+            {gefilterteBuecher.map((buch, index) => (
               <ListGroup.Item key={index}>
                 <strong>ISBN:</strong> {buch.isbn}
-                |<strong>Title:</strong> {buch.titel.titel}
-                |<strong> Art:</strong> {buch.art} 
-                |<strong> Preis:</strong> {buch.preis} €
-              </ListGroup.Item>
+               | <strong>Title:</strong> {buch.titel.titel}
+               | <strong>Art:</strong> {buch.art}
+               | <strong>Preis:</strong> {buch.preis} €
+               | <strong>Schlagwörter:</strong> {buch.schlagwoerter.join(", ")}
+               <Button
+                  variant="info"
+                  size="sm"
+                  className="ms-2"
+                  onClick={() => {
+                    setSelectedBuch(buch);
+                    setShowModal(true);
+                  }}
+                >
+                  Weitere Info
+                </Button>
+             </ListGroup.Item>
             ))}
-          </ListGroup>
+         </ListGroup>
         </Card>
       ) : (
-        data && (
+        gefilterteBuecher && (
           <p className="mt-4 text-muted text-center">Keine Treffer gefunden.</p>
         )
       )}
+
+<Modal show={showModal} onHide={() => setShowModal(false)} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Buchdetails</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {selectedBuch && (
+      <>
+        <p><strong>ID:</strong> {selectedBuch.id}</p>
+        <p><strong>Version:</strong> {selectedBuch.version}</p>
+        <p><strong>Title:</strong> {selectedBuch.titel.titel}</p>
+        <p><strong>ISBN:</strong> {selectedBuch.isbn}</p>
+        <p><strong>Rating:</strong> {selectedBuch.rating}</p>
+        <p><strong>Art:</strong> {selectedBuch.art}</p>
+        <p><strong>Preis:</strong> {selectedBuch.preis} €</p>
+        <p><strong>Lieferbar:</strong> {selectedBuch.lieferbar ? 'Ja' : 'Nein'}</p>
+        <p><strong>Datum:</strong> {selectedBuch.datum}</p>
+        <p><strong>Homepage:</strong> {selectedBuch.homepage || '–'}</p>
+        <p><strong>Schlagwörter:</strong> {selectedBuch.schlagwoerter?.join(', ')}</p>
+      </>
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Schließen
+    </Button>
+  </Modal.Footer>
+</Modal>
+
     </Container>
   );
 }

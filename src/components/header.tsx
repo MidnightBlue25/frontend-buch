@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Link from 'next/link'
 import SimpleOffcanvas from '@/components/offcanvas'
 import ToggleButton from '@/components/toggle-button'
+import HeaderLoginButton from '@/components/HeaderLoginButton';
 
 export default function Header() {
   return (
@@ -22,9 +23,7 @@ export default function Header() {
                 <Link href="/search" className="nav-link">Suche</Link>
                 <Link href="/add" className="nav-link">Neu</Link>
                 <div style={{ width: '2rem' }}></div> {/* Abstand */}
-                <Link href="/login" passHref>
-                  <div className="btn btn-outline-primary px-3 py-1">Login</div>
-                </Link>
+                <HeaderLoginButton />
                 {/* Offcanvas-Button und Sidebar */}
                 <SimpleOffcanvas />
                 <div style={{ marginLeft: "1rem" }}>
