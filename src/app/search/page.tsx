@@ -122,10 +122,16 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
           <Card.Body>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <strong>ISBN:</strong> {buch.isbn}
+                <strong>Version:</strong> {buch.version}
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Version:</strong> {buch.version}
+                <strong>Titel:</strong> {buch.titel.titel}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Untertitel:</strong> {buch.titel.untertitel}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>ISBN:</strong> {buch.isbn}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Rating:</strong> {buch.rating}
@@ -135,6 +141,9 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Preis:</strong> {buch.preis} €
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Rabatt:</strong> {buch.rabatt}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Lieferbar:</strong> {buch.lieferbar ? "Ja" : "Nein"}
@@ -148,15 +157,6 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
               <ListGroup.Item>
                 <strong>Schlagwörter:</strong>{" "}
                 {buch.schlagwoerter?.join(", ") || "–"}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Titel:</strong> {buch.titel.titel}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Untertitle:</strong> {buch.titel.untertitel}
-              </ListGroup.Item>
-              <ListGroup.Item>
-                <strong>Rabatt:</strong> {buch.rabatt}
               </ListGroup.Item>
             </ListGroup>
           </Card.Body>
