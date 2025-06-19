@@ -183,7 +183,7 @@ export default function SuchkriterienPage() {
         </Form.Group>
 
         <Form.Group className="mb-3">
-  <Form.Label>Schlagwört</Form.Label>
+  <Form.Label>Schlagwörter</Form.Label>
   <div>
     <Form.Check
       type="checkbox"
