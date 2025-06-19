@@ -6,8 +6,6 @@ export class SuchPage {
   readonly idInput = this.page.getByRole('textbox', { name: 'Gib eine Buch-ID ein, z.B.' });
   readonly suchenButton = this.page.getByRole('button', { name: 'Suchen' });
   readonly kriterienButton = this.page.getByRole('button', { name: 'Kriterien' });
-
-
   readonly isbnField = this.page.getByText('ISBN:', { exact: false });
   readonly titleField = this.page.getByText('Title:', { exact: false });
 

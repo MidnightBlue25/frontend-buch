@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { StartseitePage } from './pages/StartseitePage';
 import { SuchPage } from './pages/SuchPage';
 import { SuchkriterienPage } from './pages/SuchkriterienPage';
+import { LoginPage } from './pages/LoginPage';
+import { LogoutPage } from './pages/LogoutPage';
 
 test('has title', async ({ page }) => {
   await page.goto('http://localhost:3001/');
@@ -143,4 +145,40 @@ test('Search with schlagwort', async ({ page }) => {
 
   await expect(page.getByText('ISBN: 978-3-827-31552-6|')).toBeVisible();
   await expect(page.getByText('Title: Beta|')).toBeVisible();
+});
+
+test('login', async ({ page }) => {
+  const startseite = new StartseitePage(page);
+  const loginPage = new LoginPage(page);
+
+  await page.goto('http://localhost:3001/');
+  await startseite.clickLogin();
+
+  await loginPage.enterUsername('admin');
+  await loginPage.enterPasswort('p');
+
+  await loginPage.clickLogin();
+
+  await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
+});
+
+test('logout', async ({ page }) => {
+  const startseite = new StartseitePage(page);
+  const loginPage = new LoginPage(page);
+  const logoutPage = new LogoutPage(page);
+
+  await page.goto('http://localhost:3001/');
+  await startseite.clickLogin();
+
+  await loginPage.enterUsername('admin');
+  await loginPage.enterPasswort('p');
+
+  await loginPage.clickLogin();
+
+  await logoutPage.clickLogout();
+  await logoutPage.jaLogout();
+
+  await expect(page.getByText('Erfolgreich ausgeloggt!')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
 });
