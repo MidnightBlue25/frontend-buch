@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { StartseitePage } from './pages/startseitePage';
-import { SuchPage } from './pages/suchPage';
-import { SuchkriterienPage } from './pages/suchkriterienPage';
-import { LoginPage } from './pages/loginPage';
-import { LogoutPage } from './pages/logoutPage';
-import { AddBookPage } from './pages/addBookPage';
+import { StartseitePage } from './pages/StartseitePage';
+import { SuchPage } from './pages/SuchPage';
+import { SuchkriterienPage } from './pages/SuchkriterienPage';
+import { LoginPage } from './pages/LoginPage';
+import { LogoutPage } from './pages/LogoutPage';
+import { AddBookPage } from './pages/AddBookPage';
 
 test('has title', async ({ page }) => {
   await page.goto('https://localhost:3001/');

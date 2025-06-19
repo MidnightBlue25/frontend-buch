@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css';
 import Headers from '@/components/header';
-import ApolloProviderWrapper from '@/components/ApolloProviderWrapper';
+import ApolloProviderWrapper from '@/components/apollo-providerWrapper';
 
 export const metadata = {
   title: 'Buch SPA',

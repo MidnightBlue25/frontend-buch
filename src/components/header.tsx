@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container'
 import Link from 'next/link'
 import SimpleOffcanvas from '@/components/offcanvas'
 import ToggleButton from '@/components/toggle-button'
-import HeaderLoginButton from '@/components/HeaderLoginButton';
+import HeaderLoginButton from '@/components/header-loginButton';
 
 export default function Header() {
   return (
