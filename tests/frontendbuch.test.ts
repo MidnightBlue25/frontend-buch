@@ -4,6 +4,7 @@ import { SuchPage } from './pages/SuchPage';
 import { SuchkriterienPage } from './pages/SuchkriterienPage';
 import { LoginPage } from './pages/LoginPage';
 import { LogoutPage } from './pages/LogoutPage';
+import { AddBookPage } from './pages/AddBookPage';
 
 test('has title', async ({ page }) => {
   await page.goto('http://localhost:3001/');
@@ -181,4 +182,29 @@ test('logout', async ({ page }) => {
 
   await expect(page.getByText('Erfolgreich ausgeloggt!')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
+});
+
+test('buch einlegen', async ({ page }) => {
+  const startseite = new StartseitePage(page);
+  const loginPage = new LoginPage(page);
+  const addBookPage = new AddBookPage(page);
+
+  await page.goto('http://localhost:3001/');
+  await startseite.clickLogin();
+
+  await loginPage.enterUsername('admin');
+  await loginPage.enterPasswort('p');
+
+  await loginPage.clickLogin();
+  await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible();
+
+  await startseite.clickNeu();
+
+  await addBookPage.addIsbn('978-3-12-732320-7');
+  await addBookPage.addTitle('Testbuch');
+  await addBookPage.addHomepage('https://example.com');
+
+  await addBookPage.clickanlegen();
+
+  await expect(page.getByText('Buch erfolgreich angelegt!')).toBeVisible();
 });
