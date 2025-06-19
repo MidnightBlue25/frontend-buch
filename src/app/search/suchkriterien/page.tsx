@@ -117,7 +117,7 @@ export default function SuchkriterienPage() {
     <Breadcrumb>
       <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
       <Breadcrumb.Item href="/search">
-        Suchen
+        Suche
       </Breadcrumb.Item>
       <Breadcrumb.Item active>Suchkriterien</Breadcrumb.Item>
     </Breadcrumb>
@@ -132,7 +132,7 @@ export default function SuchkriterienPage() {
           <Form.Control
             value={isbn}
             onChange={(e) => setISBN(e.target.value)}
-            placeholder="ISBN, z.B. 978-3-8362-6760-4"
+            placeholder="z.B. 978-3-897-22583-1"
           />
         </Form.Group>
         
