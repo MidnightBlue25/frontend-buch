@@ -108,7 +108,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         Fehler: {error.message}
         </Alert>
       )}
-      {buch ? (
+      {buch && (
         <Card className="mb-5">
           <Card.Header>Gefundene Buchdaten</Card.Header>
           <Card.Body>
@@ -150,9 +150,7 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
             </ListGroup>
           </Card.Body>
         </Card>
-      ) : (
-        !loading && <p className="text-muted text-center"> Keine Daten gefunden.</p>
-      )}
+        )}
     </Container>
   );
 };

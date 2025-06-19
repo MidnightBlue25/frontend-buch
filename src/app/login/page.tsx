@@ -51,7 +51,7 @@ export default function LoginPage() {
   } else {
     setError('Login fehlgeschlagen: Kein Token erhalten.');
   }
-} catch (error) {
+} catch {
   setError('Fehler beim Senden der Anfrage.');
 }
 
