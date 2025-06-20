@@ -1,26 +1,26 @@
 import { Page } from '@playwright/test';
 
 export class StartseitePage {
-  constructor(private page: Page) {}
+    constructor(private page: Page) {}
 
-  readonly sucheLink = this.page.getByRole('link', { name: 'Suche' });
-  readonly neuLink = this.page.getByRole('link', { name: 'Neu' });
-  readonly loginButton = this.page.getByRole('button', { name: 'Login' });
-  readonly logoutButton = this.page.getByRole('button', { name: 'Logout' });
+    readonly sucheLink = this.page.getByRole('link', { name: 'Suche' });
+    readonly neuLink = this.page.getByRole('link', { name: 'Neu' });
+    readonly loginButton = this.page.getByRole('button', { name: 'Login' });
+    readonly logoutButton = this.page.getByRole('button', { name: 'Logout' });
 
-  async clickSuche() {
-    await this.sucheLink.click();
-  }
+    async clickSuche() {
+        await this.sucheLink.click();
+    }
 
     async clickNeu() {
-    await this.neuLink.click();
-  }
+        await this.neuLink.click();
+    }
 
     async clickLogin() {
-    await this.loginButton.click();
-  }
+        await this.loginButton.click();
+    }
 
     async clickLogout() {
-    await this.logoutButton.click();
-  }
+        await this.logoutButton.click();
+    }
 }

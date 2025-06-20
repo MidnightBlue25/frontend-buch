@@ -24,7 +24,9 @@ export default function AddBookPage() {
   const [createBuch, { data, loading, error }] = useMutation(CREATE_BUCH);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     const { name, value } = e.target;
 
@@ -72,10 +74,10 @@ export default function AddBookPage() {
     <Container className="mt-5 pb-5">
       <Row className="justify-content-center">
         <Col md={8}>
-    <Breadcrumb>
-      <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
-      <Breadcrumb.Item active>Neu</Breadcrumb.Item>
-    </Breadcrumb>
+          <Breadcrumb>
+            <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+            <Breadcrumb.Item active>Neu</Breadcrumb.Item>
+          </Breadcrumb>
 
           <h2>Neues Buch anlegen</h2>
           <Form onSubmit={handleSubmit}>
@@ -114,7 +116,11 @@ export default function AddBookPage() {
 
             <Form.Group className="mb-3" controlId="formArt">
               <Form.Label>Buchart</Form.Label>
-              <Form.Select name="art" value={formData.art} onChange={handleChange}>
+              <Form.Select
+                name="art"
+                value={formData.art}
+                onChange={handleChange}
+              >
                 <option value="EPUB">EPUB</option>
                 <option value="HARDCOVER">HARDCOVER</option>
                 <option value="PAPERBACK">PAPERBACK</option>
@@ -145,7 +151,11 @@ export default function AddBookPage() {
 
             <Form.Group className="mb-3" controlId="formLieferbar">
               <Form.Label>Lieferbar</Form.Label>
-              <Form.Select name="lieferbar" value={formData.lieferbar.toString()} onChange={handleChange}>
+              <Form.Select
+                name="lieferbar"
+                value={formData.lieferbar.toString()}
+                onChange={handleChange}
+              >
                 <option value="true">Ja</option>
                 <option value="false">Nein</option>
               </Form.Select>
@@ -187,8 +197,12 @@ export default function AddBookPage() {
               {loading ? 'Speichert...' : 'Buch anlegen'}
             </Button>
 
-            {error && <p className="text-danger mt-3">Fehler: {error.message}</p>}
-            {data && <p className="text-success mt-3">Buch erfolgreich angelegt!</p>}
+            {error && (
+              <p className="text-danger mt-3">Fehler: {error.message}</p>
+            )}
+            {data && (
+              <p className="text-success mt-3">Buch erfolgreich angelegt!</p>
+            )}
           </Form>
         </Col>
       </Row>

@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Form, Button, Alert, Container } from 'react-bootstrap'
+import { useState } from 'react';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (username === '' || password === '') {
-      setError('Benutzername und Passwort dürfen nicht leer sein.')
-      return
+      setError('Benutzername und Passwort dürfen nicht leer sein.');
+      return;
     }
 
     // GraphQL Login Mutation
@@ -24,45 +24,44 @@ export default function LoginPage() {
           access_token
         }
       }
-    `
+    `;
 
     try {
-  const response = await fetch('https://localhost:3000/graphql', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query })
-  });
+      const response = await fetch('https://localhost:3000/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      });
 
-  const result = await response.json();
+      const result = await response.json();
 
-  // Erste prüfen, ob es Fehler gibt bei der Anfrage
-  if (result.errors && result.errors.length > 0) {
-    setError(result.errors[0].message || 'Fehler beim Login.');
-    return;
-  }
+      // Erste prüfen, ob es Fehler gibt bei der Anfrage
+      if (result.errors && result.errors.length > 0) {
+        setError(result.errors[0].message || 'Fehler beim Login.');
+        return;
+      }
 
-  // und dann prüfen, ob das Token vorhanden ist
-  if (result.data?.token?.access_token) {
-    const token = result.data.token.access_token;
-    localStorage.setItem('access_token', token);
-    localStorage.setItem('justLoggedIn', 'true');
-    setError('');
-    window.location.href = '/'; // zurück zu Startseite
-  } else {
-    setError('Login fehlgeschlagen: Kein Token erhalten.');
-  }
-} catch {
-  setError('Fehler beim Senden der Anfrage.');
-}
-
-  }
+      // und dann prüfen, ob das Token vorhanden ist
+      if (result.data?.token?.access_token) {
+        const token = result.data.token.access_token;
+        localStorage.setItem('access_token', token);
+        localStorage.setItem('justLoggedIn', 'true');
+        setError('');
+        window.location.href = '/'; // zurück zu Startseite
+      } else {
+        setError('Login fehlgeschlagen: Kein Token erhalten.');
+      }
+    } catch {
+      setError('Fehler beim Senden der Anfrage.');
+    }
+  };
 
   return (
     <Container style={{ maxWidth: '400px', marginTop: '100px' }}>
-    <Breadcrumb className="mb-4">
-      <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
-      <Breadcrumb.Item active>Login</Breadcrumb.Item>
-    </Breadcrumb>
+      <Breadcrumb className="mb-4">
+        <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+        <Breadcrumb.Item active>Login</Breadcrumb.Item>
+      </Breadcrumb>
 
       <h2>Einloggen</h2>
       {error && <Alert variant="danger">{error}</Alert>}
@@ -92,5 +91,5 @@ export default function LoginPage() {
         </Button>
       </Form>
     </Container>
-  )
+  );
 }

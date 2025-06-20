@@ -1,11 +1,20 @@
-"use client";
+'use client';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-import { gql, useLazyQuery } from "@apollo/client";
-import { useState } from "react";
-import { Button, Container, Form, Card, ListGroup, InputGroup, Alert, Spinner } from 'react-bootstrap';
-import Link from "next/link";
+import { gql, useLazyQuery } from '@apollo/client';
+import { useState } from 'react';
+import {
+  Button,
+  Container,
+  Form,
+  Card,
+  ListGroup,
+  InputGroup,
+  Alert,
+  Spinner,
+} from 'react-bootstrap';
+import Link from 'next/link';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 const query = gql`
@@ -23,10 +32,10 @@ const query = gql`
       titel {
         titel
         untertitel
-    }
+      }
       rabatt(short: true)
-  }
     }
+  }
 `;
 //type Titel = {
 //  titel: string
@@ -45,16 +54,16 @@ const query = gql`
 //}
 
 type Buch = {
-  id: number
-  version: number
-  isbn: string
-  rating: number
-  art: string
-  preis: number
-  lieferbar: boolean
-  datum: string
-  homepage: string
-  schlagwoerter: [string]
+  id: number;
+  version: number;
+  isbn: string;
+  rating: number;
+  art: string;
+  preis: number;
+  lieferbar: boolean;
+  datum: string;
+  homepage: string;
+  schlagwoerter: [string];
   titel: {
     titel: string;
     untertitel: string;
@@ -63,35 +72,37 @@ type Buch = {
     beschriftung: string;
     contentType: string;
   };
-  rabatt: string
-}
+  rabatt: string;
+};
 
 export default function BuchPage() {
-  const [id, setId] = useState("");
-  const [search, { data, loading, error }] = useLazyQuery<{ buch: Buch }>(query);
+  const [id, setId] = useState('');
+  const [search, { data, loading, error }] = useLazyQuery<{ buch: Buch }>(
+    query,
+  );
 
-const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault(); // wichtig, um das Standard-Formularverhalten zu verhindern
-  if (id.trim() !== "") {
-    search({ variables: { id: Number(id) } });
-  }
-};
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // wichtig, um das Standard-Formularverhalten zu verhindern
+    if (id.trim() !== '') {
+      search({ variables: { id: Number(id) } });
+    }
+  };
   const buch = data?.buch;
 
   return (
-    <Container className="mt-5" style={{ maxWidth: "720px" }}>
-          <Breadcrumb>
-            <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
-            <Breadcrumb.Item active>Suche</Breadcrumb.Item>
-          </Breadcrumb>
+    <Container className="mt-5" style={{ maxWidth: '720px' }}>
+      <Breadcrumb>
+        <Breadcrumb.Item href="/">Startseite</Breadcrumb.Item>
+        <Breadcrumb.Item active>Suche</Breadcrumb.Item>
+      </Breadcrumb>
 
       <div className="d-flex justify-content-between align-items-center mb-4">
         <Link href="/search/suchkriterien" passHref>
           <Button variant="outline-primary"> Suche mit Kriterien</Button>
         </Link>
-    <h2 className="text-center flex-grow-1 mb-0">Buch Details</h2>
-    <div style={{ width: "150px" }} /> {/* die titel wird in der mittel */}
-  </div>
+        <h2 className="text-center flex-grow-1 mb-0">Suche mit ID</h2>
+        <div style={{ width: '150px' }} /> {/* die titel wird in der mittel */}
+      </div>
 
       <Form onSubmit={handleSearch}>
         <InputGroup className="mb-4">
@@ -108,12 +119,12 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
 
       {loading && (
         <div className="text-center mt-4">
-        <Spinner animation="border" />
+          <Spinner animation="border" />
         </div>
       )}
       {error && (
         <Alert variant="danger" className="mt-4">
-        Fehler: {error.message}
+          Fehler: {error.message}
         </Alert>
       )}
       {buch && (
@@ -146,22 +157,22 @@ const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
                 <strong>Rabatt:</strong> {buch.rabatt}
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Lieferbar:</strong> {buch.lieferbar ? "Ja" : "Nein"}
+                <strong>Lieferbar:</strong> {buch.lieferbar ? 'Ja' : 'Nein'}
               </ListGroup.Item>
               <ListGroup.Item>
                 <strong>Datum:</strong> {buch.datum}
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Homepage:</strong> {buch.homepage || "–"}
+                <strong>Homepage:</strong> {buch.homepage || '–'}
               </ListGroup.Item>
               <ListGroup.Item>
-                <strong>Schlagwörter:</strong>{" "}
-                {buch.schlagwoerter?.join(", ") || "–"}
+                <strong>Schlagwörter:</strong>{' '}
+                {buch.schlagwoerter?.join(', ') || '–'}
               </ListGroup.Item>
             </ListGroup>
           </Card.Body>
         </Card>
-        )}
+      )}
     </Container>
   );
-};
+}

@@ -47,39 +47,39 @@ export default function HeaderLoginButton() {
         variant={isLoggedIn ? 'outline-danger' : 'outline-primary'}
         className="px-3 py-1 d-flex align-items-center gap-2"
         onClick={isLoggedIn ? handleLogout : handleLoginClick}
-        >
-            {/* icon von login und logout */}
+      >
+        {/* icon von login und logout */}
         {isLoggedIn ? (
-            <>
+          <>
             <TbLogout size={18} />
             Logout
-            </>
+          </>
         ) : (
-            <>
+          <>
             <TbLogin size={18} />
             Login
-            </>
+          </>
         )}
-        </Button>
+      </Button>
 
       {/* login nachricht */}
-  {showLoginSuccess && (
-    <div
-      className="position-absolute top-100 mt-1 start-50 translate-middle-x px-3 py-2 bg-success text-white rounded shadow text-nowrap"
-      style={{ fontSize: '0.9rem', zIndex: 9999 }}
-    >
-      Erfolgreich eingeloggt!
-    </div>
-  )}
+      {showLoginSuccess && (
+        <div
+          className="position-absolute top-100 mt-1 start-50 translate-middle-x px-3 py-2 bg-success text-white rounded shadow text-nowrap"
+          style={{ fontSize: '0.9rem', zIndex: 9999 }}
+        >
+          Erfolgreich eingeloggt!
+        </div>
+      )}
 
-  {/* logout nachricht */}
-  {showLogoutSuccess && (
-     <div
-      className="position-absolute top-100 mt-1 start-50 translate-middle-x px-3 py-2 bg-info text-white rounded shadow text-nowrap"
-      style={{ fontSize: '0.9rem', zIndex: 9999 }}
-    >
-      Erfolgreich ausgeloggt!
-    </div>
+      {/* logout nachricht */}
+      {showLogoutSuccess && (
+        <div
+          className="position-absolute top-100 mt-1 start-50 translate-middle-x px-3 py-2 bg-info text-white rounded shadow text-nowrap"
+          style={{ fontSize: '0.9rem', zIndex: 9999 }}
+        >
+          Erfolgreich ausgeloggt!
+        </div>
       )}
 
       <Modal show={showLogoutConfirm} onHide={cancelLogout} centered>
@@ -88,8 +88,12 @@ export default function HeaderLoginButton() {
         </Modal.Header>
         <Modal.Body>Willst du dich wirklich ausloggen?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={cancelLogout}>Nein</Button>
-          <Button variant="danger" onClick={confirmLogout}>Ja</Button>
+          <Button variant="secondary" onClick={cancelLogout}>
+            Nein
+          </Button>
+          <Button variant="danger" onClick={confirmLogout}>
+            Ja
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>

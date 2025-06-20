@@ -1,17 +1,17 @@
-"use client";
-import { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+'use client';
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function generateIsbn13(): string {
-  const prefix = "978";
+  const prefix = '978';
   const registrant = Array.from({ length: 9 }, () =>
-    Math.floor(Math.random() * 10)
-  ).join("");
+    Math.floor(Math.random() * 10),
+  ).join('');
   const base = prefix + registrant;
 
   const sum = base
-    .split("")
+    .split('')
     .map(Number)
     .reduce((acc, digit, idx) => acc + digit * (idx % 2 === 0 ? 1 : 3), 0);
   const checkDigit = (10 - (sum % 10)) % 10;
@@ -23,12 +23,12 @@ function formatIsbn(isbn: string): string {
   // Beispiel-Format: 978-3-16-148410-0
   return `${isbn.slice(0, 3)}-${isbn.slice(3, 4)}-${isbn.slice(
     4,
-    7
+    7,
   )}-${isbn.slice(7, 12)}-${isbn.slice(12)}`;
 }
 
 export default function IsbnGenerator() {
-  const [isbn, setIsbn] = useState("");
+  const [isbn, setIsbn] = useState('');
   const [copied, setCopied] = useState(false);
 
   const handleGenerate = () => {
@@ -59,12 +59,8 @@ export default function IsbnGenerator() {
             className="mb-2"
             aria-label="Generierte ISBN"
           />
-          <Button
-            variant="outline-secondary"
-            size="sm"
-            onClick={handleCopy}
-          >
-            {copied ? "✔️ Kopiert" : "📋 Kopieren"} {/* Kopieren-Button */}
+          <Button variant="outline-secondary" size="sm" onClick={handleCopy}>
+            {copied ? '✔️ Kopiert' : '📋 Kopieren'} {/* Kopieren-Button */}
           </Button>
         </>
       )}

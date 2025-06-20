@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { RxHamburgerMenu } from "react-icons/rx";
+import { RxHamburgerMenu } from 'react-icons/rx';
 import IsbnGenerator from './isbnGenerator';
 
 export default function SimpleOffcanvas() {
@@ -23,8 +23,8 @@ export default function SimpleOffcanvas() {
         </Offcanvas.Header>
         <Offcanvas.Body>
           {/* <h5>Tools</h5>  {/* → Überschrift */}
-            <IsbnGenerator />
-            <br />
+          <IsbnGenerator />
+          <br />
           <p>&quot;Hier werden noch Sachen folgen.&quot; – Developer</p>
         </Offcanvas.Body>
       </Offcanvas>

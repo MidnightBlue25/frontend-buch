@@ -3,12 +3,12 @@
   --foreground: #171717;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --background: #2b2b2b;
   --foreground: #ededed;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -52,64 +52,63 @@ a {
 }
 
 /* DARK MODE STYLES (via data-theme) */
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
 }
 
 /* Bootstrap-Komponenten im Dark Mode */
-[data-theme="dark"] body,
-[data-theme="dark"] input,
-[data-theme="dark"] textarea,
-[data-theme="dark"] select,
-[data-theme="dark"] button,
-[data-theme="dark"] .offcanvas,
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .card,
-[data-theme="dark"] .dropdown-menu {
+[data-theme='dark'] body,
+[data-theme='dark'] input,
+[data-theme='dark'] textarea,
+[data-theme='dark'] select,
+[data-theme='dark'] button,
+[data-theme='dark'] .offcanvas,
+[data-theme='dark'] .form-control,
+[data-theme='dark'] .card,
+[data-theme='dark'] .dropdown-menu {
   background-color: var(--background) !important;
   color: var(--foreground) !important;
 }
-[data-theme="dark"] .list-group,
-[data-theme="dark"] .list-group-item {
+[data-theme='dark'] .list-group,
+[data-theme='dark'] .list-group-item {
   background-color: #3a3a3a !important; /* etwas heller als #2b2b2b */
   color: var(--foreground) !important;
   border-color: #4a4a4a !important;
 }
-[data-theme="dark"] .modal-content {
+[data-theme='dark'] .modal-content {
   background-color: #3a3a3a !important;
   color: var(--foreground) !important;
   border-color: #4a4a4a !important;
 }
 
-
 /* Platzhalter in Inputs */
-[data-theme="dark"] input::placeholder,
-[data-theme="dark"] textarea::placeholder {
+[data-theme='dark'] input::placeholder,
+[data-theme='dark'] textarea::placeholder {
   color: var(--foreground);
   opacity: 0.6;
 }
 
 /* Offcanvas Header & Body */
-[data-theme="dark"] .offcanvas-header,
-[data-theme="dark"] .offcanvas-body {
+[data-theme='dark'] .offcanvas-header,
+[data-theme='dark'] .offcanvas-body {
   background-color: var(--background) !important;
   color: var(--foreground) !important;
 }
 /* Breadcrumbs im Dark Mode */
-[data-theme="dark"] .breadcrumb {
+[data-theme='dark'] .breadcrumb {
   background-color: var(--background);
   color: var(--foreground);
 }
 
-[data-theme="dark"] .breadcrumb-item,
-[data-theme="dark"] .breadcrumb-item > a {
+[data-theme='dark'] .breadcrumb-item,
+[data-theme='dark'] .breadcrumb-item > a {
   color: var(--foreground);
 }
 
-[data-theme="dark"] .breadcrumb-item.active {
+[data-theme='dark'] .breadcrumb-item.active {
   color: var(--foreground);
 }
 
-[data-theme="dark"] .breadcrumb-item + .breadcrumb-item::before {
+[data-theme='dark'] .breadcrumb-item + .breadcrumb-item::before {
   color: var(--foreground); /* ← Das ist der Slash "/" */
 }
