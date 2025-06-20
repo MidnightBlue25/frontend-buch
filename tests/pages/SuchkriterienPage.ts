@@ -3,7 +3,7 @@ import { Page } from '@playwright/test';
 export class SuchkriterienPage {
   constructor(private page: Page) {}
 
-  readonly isbnInput = this.page.getByRole('textbox', { name: 'ISBN, z.B. 978-3-8362-6760-' });
+  readonly isbnInput = this.page.getByRole('textbox', { name: 'z.B. 978-3-897-22583-1' });
   readonly titleInput = this.page.getByRole('textbox', { name: 'z.B. JavaScript Patterns' });
   readonly radioEPUB = this.page.locator('div').filter({ hasText: /^EPUB$/ }).getByRole('radio');
   readonly radioHARDCOVER = this.page.locator('div').filter({ hasText: /^HARDCOVER$/ }).getByRole('radio');

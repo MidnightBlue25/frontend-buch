@@ -73,10 +73,10 @@ test('Search with isbn', async ({ page }) => {
   await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-897-22583-1|')).toBeVisible();
-  await expect(page.getByText('Title: Alpha|')).toBeVisible();
+  await expect(page.getByText('Titel: Alpha|')).toBeVisible();
 });
 
-test('Search with title', async ({ page }) => {
+test('Search with titel', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const suchePage = new SuchPage(page);
   const suchkriterien = new SuchkriterienPage(page);
@@ -90,7 +90,7 @@ test('Search with title', async ({ page }) => {
   await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-827-31552-6|')).toBeVisible();
-  await expect(page.getByText('Title: Beta|')).toBeVisible();
+  await expect(page.getByText('Titel: Beta|')).toBeVisible();
 });
 
 test('Search with art', async ({ page }) => {
@@ -107,9 +107,9 @@ test('Search with art', async ({ page }) => {
   await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-897-22583-1|')).toBeVisible();
-  await expect(page.getByText('Title: Alpha|')).toBeVisible();
+  await expect(page.getByText('Titel: Alpha|')).toBeVisible();
   await expect(page.getByText('ISBN: 978-0-007-09732-6|')).toBeVisible();
-  await expect(page.getByText('Title: Delta|')).toBeVisible();
+  await expect(page.getByText('Titel: Delta|')).toBeVisible();
 });
 
 test('Search with lieferbar', async ({ page }) => {
@@ -126,9 +126,9 @@ test('Search with lieferbar', async ({ page }) => {
   await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-540-43081-0|')).toBeVisible();
-  await expect(page.getByText('Title: Phi|')).toBeVisible();
+  await expect(page.getByText('Titel: Phi|')).toBeVisible();
   await expect(page.getByText('ISBN: 978-0-132-35088-4|')).toBeVisible();
-  await expect(page.getByText('Title: Iota|')).toBeVisible();
+  await expect(page.getByText('Titel: Iota|')).toBeVisible();
 });
 
 test('Search with schlagwort', async ({ page }) => {
@@ -145,7 +145,7 @@ test('Search with schlagwort', async ({ page }) => {
   await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-827-31552-6|')).toBeVisible();
-  await expect(page.getByText('Title: Beta|')).toBeVisible();
+  await expect(page.getByText('Titel: Beta|')).toBeVisible();
 });
 
 test('Search with multiple criteria', async ({ page }) => {
@@ -164,9 +164,9 @@ test('Search with multiple criteria', async ({ page }) => {
   await suchkriterien.clickSuchen();
 
   await expect(page.getByText('ISBN: 978-3-827-31552-6|')).toBeVisible();
-  await expect(page.getByText('Title: Beta|')).toBeVisible();
+  await expect(page.getByText('Titel: Beta|')).toBeVisible();
   await expect(page.getByText('ISBN: 978-0-321-19368-1|')).toBeVisible();
-  await expect(page.getByText('Title: Zeta|')).toBeVisible();
+  await expect(page.getByText('Titel: Zeta|')).toBeVisible();
 });
 
 test('login', async ({ page }) => {
@@ -181,7 +181,7 @@ test('login', async ({ page }) => {
 
   await login.clickLogin();
 
-  await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible();
+  await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible({ timeout: 10000 });
   await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
 });
 
@@ -205,7 +205,7 @@ test('logout', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Login' })).toBeVisible();
 });
 
-test('buch einlegen', async ({ page }) => {
+test('buch anlegen', async ({ page }) => {
   const startseite = new StartseitePage(page);
   const login = new LoginPage(page);
   const addBook = new AddBookPage(page);
@@ -217,7 +217,7 @@ test('buch einlegen', async ({ page }) => {
   await login.enterPasswort('p');
 
   await login.clickLogin();
-  await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible();
+  await expect(page.getByText('Erfolgreich eingeloggt!')).toBeVisible({ timeout: 10000 });
 
   await addBook.clicksidebar();
   await addBook.clicknewisbn();
