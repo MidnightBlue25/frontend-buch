@@ -252,7 +252,7 @@ export default function SuchkriterienPage() {
                     setShowModal(true);
                   }}
                 >
-                  Weitere Info
+                  Details
                 </Button>
               </ListGroup.Item>
             ))}
