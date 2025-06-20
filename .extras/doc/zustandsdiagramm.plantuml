@@ -1,0 +1,61 @@
+@startuml Zustandsdiagramm
+' Preview durch <Alt>d
+
+hide empty description
+state BuchFrontend {
+    BuchFrontend : name = "frontend-buch"
+
+    state App {
+        [*] --> Startseite: App starten
+
+        state Startseite {
+            state Navbar <<choice>>
+            [*] --> Navbar: Navbar
+            Navbar --> Suche: "Suche" klicken
+            Navbar --> Neu: "Neu" klicken
+            Navbar --> Login: Button "Login" klicken
+        }
+
+        state Login {
+            [*] --> Anmeldeformular: Benutzername und Passwort eingeben
+            Anmeldeformular --> Anmelden: Button "Login"
+            state AnmeldungDaten <<choice>>
+            Anmelden --> AnmeldungDaten
+            AnmeldungDaten --> Anmeldung_fehlgeschlagen: Falsche Daten
+            Anmeldung_fehlgeschlagen --> Anmeldeformular: Daten korrigieren
+            AnmeldungDaten --> Anmeldung: Richtige Daten
+            Anmeldung --> [*]: Benutzer angemeldet
+        }
+
+        state Suche {
+            state SuchFormular <<choice>>
+            [*] --> SuchFormular: Wählen
+            SuchFormular --> SuchformularID: Suche mit ID
+            SuchFormular --> WartenKriterien: Button "Suche mit Kriterien"
+            WartenKriterien --> SuchformularKriterien: Eingabefelder für Kriterien
+            SuchformularID --> Warten: Button "Suchen"
+            SuchformularKriterien --> Warten: Button "Suchen"
+            state SuchAuswahl <<choice>>
+            Warten --> SuchAuswahl: Suchergebnis eingetroffen
+
+            state SuchergebnisTabelle {
+                SuchAuswahl --> GefundeneBuchdaten: mind. 1 passendes Buch gefunden
+                SuchAuswahl --> Fehlermeldung: keine passenden Bücher gefunden
+                Fehlermeldung --> [*]
+            }
+
+            GefundeneBuchdaten --> Details: Buch auswählen
+        }
+
+        state Neu {
+            [*] --> Eingabeformular: Daten eines Buches eintragen
+            state AnlegenAuswahl <<choice>>
+            Eingabeformular --> AnlegenAuswahl: Button "Buch anlegen"
+            AnlegenAuswahl --> Buchanlage: Gültige Daten
+            AnlegenAuswahl --> FehlerMeldung: Ungültige Daten
+            Buchanlage --> [*]: Buch wurde angelegt
+            FehlerMeldung --> Eingabeformular: Daten korrigieren
+        }
+    }
+}
+@enduml
