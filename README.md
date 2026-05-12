@@ -1,6 +1,6 @@
 # Frontend Book – Web Application
 
-Frontend project built with Next.js and TypeScript, focusing on modern web development, UI structure, and automated testing.
+Frontend application built with Next.js and TypeScript, focusing on modern web development, UI structure, and automated testing.
 
 ## Technologies
 - Next.js
